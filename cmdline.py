@@ -3,6 +3,7 @@ from twisted.internet import reactor
 from scrapy.crawler import CrawlerRunner
 from forum_analyzer.calculate_elements import find_min_images_count
 from data_converter.xml_to_html import xml_data_to_html
+from data_converter.xslt_transform import xslt_transform
 from forum_parser.spiders.doroga_spider import DorogaSiteSpider
 from forum_parser.spiders.market_spider import InternetMarketSpider
 
@@ -42,7 +43,12 @@ def main():
     print("Task 2: Parse internet market\n")
 
     run_spider(InternetMarketSpider)
-    xml_data_to_html(InternetMarketSpider.filename, "products.html")
+
+    input_result = input("1) Convert xml with yattag\n2) Convert xml with xslt\n\n>>")
+    if input_result == 1:
+        xml_data_to_html(InternetMarketSpider.filename, "products.html")
+    else:
+        xslt_transform(InternetMarketSpider.filename)
 
 
 if __name__ == "__main__":
